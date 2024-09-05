@@ -1,18 +1,16 @@
 #!/bin/bash
 
-# setup dir
-mkdir -p tmp
-cd tmp
+# not running in github actions? use gh cli to login, etc, locally
+if [ "$GITHUB_ACTIONS" != "true" ]; then
+    # login to the registry
+    # if running locally, we may need to: 
+    # gh auth refresh -h github.com -s write:packages,read:packages
+    gh auth token | docker login ghcr.io --username YOURUSERNAME --password-stdin
+    GH_USER=$(gh api user --jq '.login')
+    IMAGE_NAME="${GH_USER}/rust-wasi-hello"
+fi
 
-# install wkg
-git clone https://github.com/bytecodealliance/wasm-pkg-tools
-cd wasm-pkg-tools
-cargo install --path .
-
-# login to the registry
-gh auth token | docker login ghcr.io --username yoshuawuyts --password-stdin
-
-# publish using wkg
 PROJECT_NAME="rust_wasi_hello"
-REGISTRY_REFERENCE="ghcr.io/yoshuawuyts/rust-wasi-hello:latest"
+REGISTRY_REFERENCE="ghcr.io/${IMAGE_NAME}:latest"
+
 wkg oci push $REGISTRY_REFERENCE target/wasm32-wasip1/release/$PROJECT_NAME.wasm
