@@ -10,7 +10,7 @@ cd wasm-pkg-tools
 cargo install --path .
 
 # login to the registry
-gh auth token | docker login ghcr.io --password-stdin
+gh auth token | docker login ghcr.io --username yoshuawuyts --password-stdin
 
 # publish using wkg
 PROJECT_NAME="rust_wasi_hello"

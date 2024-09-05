@@ -10,7 +10,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-tests:
+  publish:
     runs-on: ubuntu-latest
 
     steps:
