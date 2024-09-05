@@ -12,7 +12,17 @@ checksum = "cf4b9d6a944f767f8e5e0db018570623c85f3d925ac718db4e06d0187adb21c1"
 name = "rust-wasi-hello"
 version = "0.0.0"
 dependencies = [
- "wit-bindgen-rt",
+ "wasi",
+ "wit-bindgen-rt 0.24.0",
+]
+
+[[package]]
+name = "wasi"
+version = "0.13.2+wasi-0.2.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "d9860ef2271bc7a6e1f985ac4438862a165137fe585ac10bdfad0a8aeb37ba25"
+dependencies = [
+ "wit-bindgen-rt 0.29.0",
 ]
 
 [[package]]
@@ -20,6 +30,15 @@ name = "wit-bindgen-rt"
 version = "0.24.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "3b0780cf7046630ed70f689a098cd8d56c5c3b22f2a7379bbdb088879963ff96"
+dependencies = [
+ "bitflags",
+]
+
+[[package]]
+name = "wit-bindgen-rt"
+version = "0.29.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "4b18e27825442721d23ed98591a80f55220cfe0bf883d92b1ead6c9be237bb34"
 dependencies = [
  "bitflags",
 ]
