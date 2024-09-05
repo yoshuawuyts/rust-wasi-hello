@@ -1,15 +1,5 @@
 #!/bin/bash
 
-# setup dir
-mkdir -p tmp
-cd tmp
-
-# install wkg
-git clone https://github.com/bytecodealliance/wasm-pkg-tools
-cd wasm-pkg-tools/crates/wkg
-cargo install --path .
-cd ../../../../
-
 # login to the registry
 # if running locally, we may need to: 
 # gh auth refresh -h github.com -s write:packages,read:packages
