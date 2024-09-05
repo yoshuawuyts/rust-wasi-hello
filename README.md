@@ -20,7 +20,7 @@ information on building Wasm components from different languages, check [here]!
 With that, build the Wasm component from source in this repository:
 ```sh
 $ cargo component build
-  Compiling hello-wasi-http v0.0.0 (/home/wasm/hello-wasi-http)
+  Compiling rust-wasi-hello v0.0.0 (/home/wasm/rust-wasi-hello)
     Finished `dev` profile [unoptimized + debuginfo] target(s) in 2.01s
     Creating component target/wasm32-wasip1/debug/hello_wasi_http.wasm
 ```
@@ -90,11 +90,11 @@ Here are my notes on how I created this repository, in case you're interested in
 To create a new project, run:
 
 ```sh
-$ cargo component new --proxy --lib hello-wasi-http
-    Created binary (application) `hello-wasi-http` package
-    Updated manifest of package `hello-wasi-http`
+$ cargo component new --proxy --lib rust-wasi-hello
+    Created binary (application) `rust-wasi-hello` package
+    Updated manifest of package `rust-wasi-hello`
     Generated source file `src/main.rs`
-$ cd hello-wasi-http
+$ cd rust-wasi-hello
 ```
 
 Copy the `wit` directory from your version of  Wasmtime, to ensure that we're using the same version of the API that
