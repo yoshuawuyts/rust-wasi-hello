@@ -17,6 +17,24 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v2
 
+    - name: Cache cargo bin
+      id: cache-cargo
+      uses: actions/cache@v3
+      env:
+        cache-name: cache-cargo-bin
+      with:
+        path: ~/.cargo/bin
+        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('scripts/install.sh') }}
+        restore-keys: |
+          ${{ runner.os }}-build-${{ env.cache-name }}-
+          ${{ runner.os }}-build-
+          ${{ runner.os }}-
+
+    - if: ${{ steps.cache-cargo.outputs.cache-hit != 'true' }}
+      name: Run install script
+      continue-on-error: false
+      run: bash scripts/install.sh
+
     - name: Run build script
       run: bash scripts/build.sh
 
