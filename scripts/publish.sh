@@ -7,7 +7,13 @@ gh auth token | docker login ghcr.io --username YOURUSERNAME --password-stdin
 
 # publish using wkg
 PROJECT_NAME="rust_wasi_hello"
-GH_USER=$(gh api user --jq '.login')
-REGISTRY_REFERENCE="ghcr.io/${GH_USER}/rust-wasi-hello:latest"
+
+if [ -z "$IMAGE_NAME" ]; then
+  GH_USER=$(gh api user --jq '.login')
+  IMAGE_NAME="${GH_USER}/rust-wasi-hello"
+  export IMAGE_NAME
+fi
+
+REGISTRY_REFERENCE="ghcr.io/${IMAGE_NAME}:latest"
 
 wkg oci push $REGISTRY_REFERENCE target/wasm32-wasip1/release/$PROJECT_NAME.wasm
