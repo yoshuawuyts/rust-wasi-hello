@@ -9,4 +9,4 @@ cargo install --path .
 cd ../../../../
 
 # install cargo-component
-cargo install cargo-component --version 0.16.0
+cargo install cargo-component --force --version 0.16.0
