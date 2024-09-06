@@ -13,22 +13,6 @@ package = "component:rust-wasi-hello"
 # `get-environment` or other things not present in the proxy world.
 proxy = true
 
-[package.metadata.component.dependencies]
-
-[package.metadata.component.target]
-
-[package.metadata.component.target.dependencies]
-"wasi:http" = { path = "wit/deps/http" }
-"wasi:clocks" = { path = "wit/deps/clocks" }
-"wasi:io" = { path = "wit/deps/io" }
-"wasi:random" = { path = "wit/deps/random" }
-"wasi:cli" = { path = "wit/deps/cli" }
-"wasi:filesystem" = { path = "wit/deps/filesystem" }
-"wasi:sockets" = { path = "wit/deps/sockets" }
-
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
-
 [dependencies]
-url = "2.5.2"
 wasi = "0.13.2"
-wit-bindgen-rt = { version = "0.24.0", features = ["bitflags"] }
+wit-bindgen-rt = { version = "0.30.0", features = ["bitflags"] }

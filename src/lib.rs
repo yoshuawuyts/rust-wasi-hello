@@ -1,4 +1,3 @@
-use url::Url;
 pub use wasi::http::types::{
     Fields, IncomingRequest, OutgoingBody, OutgoingResponse, ResponseOutparam,
 };
@@ -8,16 +7,12 @@ wasi::http::proxy::export!(Component);
 
 impl wasi::exports::http::incoming_handler::Guest for Component {
     fn handle(req: IncomingRequest, outparam: ResponseOutparam) {
-        let url = req.path_with_query().unwrap();
-        let url = Url::parse(&url).expect("could not parse the URL");
-        http_home(req, outparam);
-        // dbg!(&url);
-        // match url.path() {
-        //     "/wait" => http_wait(req, outparam),
-        //     // "/echo" => {} // TODO
-        //     // "/host" => {} // TODO
-        //     "/" | _ => http_home(req, outparam),
-        // }
+        match req.path_with_query().unwrap().as_str() {
+            "/wait" => http_wait(req, outparam),
+            // "/echo" => {} // TODO
+            // "/host" => {} // TODO
+            "/" | _ => http_home(req, outparam),
+        }
     }
 }
 
@@ -56,7 +51,7 @@ fn http_wait(_req: IncomingRequest, outparam: ResponseOutparam) {
     ResponseOutparam::set(outparam, Ok(res));
 
     let out = body.write().expect("outgoing stream");
-    let msg = format!("slept for {elapsed} millis");
+    let msg = format!("slept for {elapsed} millis\n");
     out.blocking_write_and_flush(msg.as_bytes())
         .expect("writing response");
 
