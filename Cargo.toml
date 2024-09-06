@@ -29,5 +29,6 @@ proxy = true
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+url = "2.5.2"
 wasi = "0.13.2"
 wit-bindgen-rt = { version = "0.24.0", features = ["bitflags"] }
