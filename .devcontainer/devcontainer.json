@@ -4,7 +4,7 @@
 		"ghcr.io/devcontainers/features/rust:1": {},
 		"ghcr.io/devcontainers/features/azure-cli:1": {}
 	},
-	"postCreateCommand": "./scripts/install.sh",
+	"postCreateCommand": "bash scripts/install.sh",
     "customizations": {
         "vscode": {
             "extensions": [
