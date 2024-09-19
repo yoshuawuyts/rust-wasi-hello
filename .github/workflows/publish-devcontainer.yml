@@ -1,5 +1,5 @@
 #
-name: Create and publish a Docker image
+name: Publish devcontainer docker image
 
 # Configures this workflow to run every time a change is pushed to the branch called `release`.
 on:
@@ -47,6 +47,7 @@ jobs:
         uses: docker/build-push-action@f2a1d5e99d037542a71f64918e516c093c6f3fc4
         with:
           context: .
+          file: .devcontainer/docker/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
