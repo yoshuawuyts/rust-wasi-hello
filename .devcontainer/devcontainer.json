@@ -1,0 +1,14 @@
+{
+    "image": "ghcr.io/asw101/rust-wasi-hello-devcontainer:latest",
+    "features": {
+        //"ghcr.io/devcontainers/features/rust:1": {},
+        "ghcr.io/devcontainers/features/azure-cli:1": {}
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "rust-lang.rust-analyzer"
+            ]
+        }
+    }
+}
