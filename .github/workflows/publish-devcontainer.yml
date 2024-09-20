@@ -6,11 +6,6 @@ on:
   push:
     branches: ['latest']
   workflow_dispatch:
-    inputs:
-      tags:
-        description: 'Tags for the Docker image'
-        required: true
-        default: 'latest'
 
 # Defines two custom environment variables for the workflow. These are used for the Container registry domain, and a name for the Docker image that this workflow builds.
 env:
@@ -54,7 +49,7 @@ jobs:
           context: .
           file: .devcontainer/docker/Dockerfile
           push: true
-          tags: ${{ github.event_name == 'workflow_dispatch' && github.event.inputs.tags || steps.meta.outputs.tags }}
+          tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
       
       # This step generates an artifact attestation for the image, which is an unforgeable statement about where and how it was built. It increases supply chain security for people who consume the image. For more information, see "[AUTOTITLE](/actions/security-guides/using-artifact-attestations-to-establish-provenance-for-builds)." 
