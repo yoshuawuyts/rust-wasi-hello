@@ -23,7 +23,7 @@ The HTTP server uses the `wasi:http/proxy` world. You can run it locally in a
 `wasmtime` instance by using the following [cargo-component] command:
 
 ```rust
-$ cargo component run
+$ cargo component serve
 ```
 
 ## Working with deployment artifacts
