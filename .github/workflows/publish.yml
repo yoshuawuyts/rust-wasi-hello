@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    tags:
+      - v*
   workflow_dispatch:
 
 env:
@@ -14,36 +16,40 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.actor }}/rust-wasi-hello
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Login to GitHub Container Registry
-      uses: docker/login-action@v3
-      with:
-        registry: ghcr.io
-        username: ${{ github.actor }}
-        password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Cache cargo bin
+        id: cache-cargo
+        uses: actions/cache@v3
+        env:
+          cache-name: cache-cargo-bin
+        with:
+          path: ~/.cargo/bin
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('scripts/install.sh') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+            ${{ runner.os }}-build-
+            ${{ runner.os }}-
 
-    - name: Cache cargo bin
-      id: cache-cargo
-      uses: actions/cache@v3
-      env:
-        cache-name: cache-cargo-bin
-      with:
-        path: ~/.cargo/bin
-        key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('scripts/install.sh') }}
-        restore-keys: |
-          ${{ runner.os }}-build-${{ env.cache-name }}-
-          ${{ runner.os }}-build-
-          ${{ runner.os }}-
+      - if: ${{ steps.cache-cargo.outputs.cache-hit != 'true' }}
+        name: Run install script
+        continue-on-error: false
+        run: bash scripts/install.sh
 
-    - if: ${{ steps.cache-cargo.outputs.cache-hit != 'true' }}
-      name: Run install script
-      continue-on-error: false
-      run: bash scripts/install.sh
+      - name: Run build script
+        run: bash scripts/build.sh
 
-    - name: Run build script
-      run: bash scripts/build.sh
-
-    - name: Run publish script
-      run: bash scripts/publish.sh
+      - name: Run publish script
+        run: bash scripts/publish.sh ${{ steps.meta.outputs.tags }}
