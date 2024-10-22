@@ -1,5 +1,5 @@
 #!/bin/bash
-tags = "$1"
+tags="$1"
 # not running in github actions? use gh cli to login, etc, locally
 if [ "$GITHUB_ACTIONS" != "true" ]; then
     # login to the registry
